@@ -1,0 +1,148 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_create_table_users
+      author: aleksei
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: phone
+                  type: varchar(55)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(120)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(45)
+                  defaultValue: 'USER'
+              - column:
+                  name: enabled
+                  type: boolean
+                  defaultValueBoolean: true
+  - changeSet:
+      id: 002_create_table_accounts
+      author: aleksei
+      changes:
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_accounts_user_id
+                    references: users(id)
+              - column:
+                  name: currency
+                  type: varchar(45)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: decimal(15,2)
+              - column:
+                  name: account_number
+                  type: varchar(55)
+                  constraints:
+                    unique: true
+                    nullable: false
+  - changeSet:
+      id: 003_create_table_transactions
+      author: aleksei
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: sender_account_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transaction_sender_account_id
+                    references: accounts(id)
+              - column:
+                  name: receiver_account_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transaction_receiver_account
+                    references: accounts(id)
+              - column:
+                  name: amount
+                  type: decimal(15,2)
+              - column:
+                  name: currency
+                  type: varchar(45)
+              - column:
+                  name: status
+                  type: varchar(45)
+                  defaultValue: 'PENDING'
+              - column:
+                  name: approval_required
+                  type: boolean
+                  defaultValueBoolean: false
+              - column:
+                  name: approved
+                  type: boolean
+                  defaultValueBoolean: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+  - changeSet:
+      id: 004_create_table_transaction_rollback
+      author: aleksei
+      changes:
+        - createTable:
+            tableName: transaction_rollback
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: transaction_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_transaction_rollback_transaction
+                    references: transactions(id)
+              - column:
+                  name: rollback_time
+                  type: timestamp
+                  defaultValueComputed: current_timestamp
+              - column:
+                  name: reason
+                  type: varchar(255)

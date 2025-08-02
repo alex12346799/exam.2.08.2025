@@ -1,0 +1,98 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_insert_users
+      author: aleksei
+      changes:
+          - insert:
+              tableName: users
+              columns:
+                - column: { name: id, valueNumeric: 1 }
+                - column: { name: phone, value: '996700111222' }
+                - column: { name: username, value: 'admin' }
+                - column: { name: password, value: '$2a$10$dOOscBUcXbuhD6L/Gbtu/eMGwlM2tAMa/6ofbGZBRQE9F8RiIKlPS' }
+                - column: { name: role, value: 'ADMIN' }
+                - column: { name: enabled, valueBoolean: true }
+          - insert:
+              tableName: users
+              columns:
+                - column: { name: id, valueNumeric: 2 }
+                - column: { name: phone, value: '996700333444' }
+                - column: { name: username, value: 'alice' }
+                - column: { name: password, value: '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2' }
+                - column: { name: role, value: 'USER' }
+                - column: { name: enabled, valueBoolean: true }
+          - insert:
+              tableName: users
+              columns:
+                - column: { name: id, valueNumeric: 3 }
+                - column: { name: phone, value: '996700555666' }
+                - column: { name: username, value: 'bob' }
+                - column: { name: password, value: '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2' }
+                - column: { name: role, value: 'USER' }
+                - column: { name: enabled, valueBoolean: true }
+  - changeSet:
+      id: 002_insert_initial_accounts
+      author: aleksei
+      changes:
+        - insert:
+            tableName: accounts
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: balance, valueNumeric: 50.00 }
+              - column: { name: account_number, value: 'ALICE-USD-001' }
+        - insert:
+            tableName: accounts
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 3 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: balance, valueNumeric: 15.00 }
+              - column: { name: account_number, value: 'BOB-USD-001' }
+        - insert:
+            tableName: accounts
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: currency, value: 'EUR' }
+              - column: { name: balance, valueNumeric: 100.00 }
+              - column: { name: account_number, value: 'ALICE-EUR-001' }
+  - changeSet:
+      id: 003_insert_initial_transactions
+      author: aleksei
+      changes:
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: sender_account_id, valueNumeric: 1 }
+              - column: { name: receiver_account_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 5.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: status, value: 'APPROVED' }
+              - column: { name: approval_required, valueBoolean: false }
+              - column: { name: approved, valueBoolean: true }
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: sender_account_id, valueNumeric: 1 }
+              - column: { name: receiver_account_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 15.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: status, value: 'PENDING' }
+              - column: { name: approval_required, valueBoolean: true }
+              - column: { name: approved, valueBoolean: false }
+
+        - insert:
+            tableName: transactions
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: sender_account_id, valueNumeric: 2 }
+              - column: { name: receiver_account_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 8.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: status, value: 'APPROVED' }
+              - column: { name: approval_required, valueBoolean: false }
+              - column: { name: approved, valueBoolean: true }
