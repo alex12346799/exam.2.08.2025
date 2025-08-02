@@ -84,14 +84,14 @@ databaseChangeLog:
                   constraints:
                     primaryKey: true
               - column:
-                  name: sender_account_id
+                  name: sender_account
                   type: int
                   constraints:
                     nullable: false
                     foreignKeyName: fk_transaction_sender_account_id
                     references: accounts(id)
               - column:
-                  name: receiver_account_id
+                  name: receiver_account
                   type: int
                   constraints:
                     nullable: false
@@ -119,6 +119,10 @@ databaseChangeLog:
                   name: created_at
                   type: timestamp
                   defaultValueComputed: current_timestamp
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
   - changeSet:
       id: 004_create_table_transaction_rollback
       author: aleksei

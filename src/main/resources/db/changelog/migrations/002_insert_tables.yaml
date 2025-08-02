@@ -66,8 +66,8 @@ databaseChangeLog:
             tableName: transactions
             columns:
               - column: { name: id, valueNumeric: 1 }
-              - column: { name: sender_account_id, valueNumeric: 1 }
-              - column: { name: receiver_account_id, valueNumeric: 2 }
+              - column: { name: sender_account, valueNumeric: 1 }
+              - column: { name: receiver_account, valueNumeric: 2 }
               - column: { name: amount, valueNumeric: 5.00 }
               - column: { name: currency, value: 'USD' }
               - column: { name: status, value: 'APPROVED' }
@@ -77,8 +77,8 @@ databaseChangeLog:
             tableName: transactions
             columns:
               - column: { name: id, valueNumeric: 2 }
-              - column: { name: sender_account_id, valueNumeric: 1 }
-              - column: { name: receiver_account_id, valueNumeric: 2 }
+              - column: { name: sender_account, valueNumeric: 1 }
+              - column: { name: receiver_account, valueNumeric: 2 }
               - column: { name: amount, valueNumeric: 15.00 }
               - column: { name: currency, value: 'USD' }
               - column: { name: status, value: 'PENDING' }
@@ -89,8 +89,8 @@ databaseChangeLog:
             tableName: transactions
             columns:
               - column: { name: id, valueNumeric: 3 }
-              - column: { name: sender_account_id, valueNumeric: 2 }
-              - column: { name: receiver_account_id, valueNumeric: 1 }
+              - column: { name: sender_account, valueNumeric: 2 }
+              - column: { name: receiver_account, valueNumeric: 1 }
               - column: { name: amount, valueNumeric: 8.00 }
               - column: { name: currency, value: 'USD' }
               - column: { name: status, value: 'APPROVED' }

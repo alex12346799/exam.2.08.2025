@@ -40,17 +40,15 @@ public class UserDao {
         List<User> users = jdbcTemplate.query(sql, rowMapper, id);
         return users.stream().findFirst();
     }
-
-    public void update(User user) {
-        String sql = "UPDATE users SET phone = ?, username = ?, password = ?, role = ?, enabled = ? WHERE id = ?";
-        jdbcTemplate.update(sql,
-                user.getPhone(),
-                user.getUsername(),
-                user.getPassword(),
-                user.getRole(),
-                user.isEnabled(),
-                user.getId());
+    public Optional<Integer> findUserIdByUsername(String username) {
+        String sql = "SELECT id FROM users WHERE username = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> rs.getInt("id"), username)
+                .stream()
+                .findFirst();
     }
+
+
+
 
 
 }

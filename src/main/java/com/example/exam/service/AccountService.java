@@ -14,4 +14,6 @@ public interface AccountService {
     Account getAccountByNumber(String accountNumber);
 
     void updateBalance(Account account, double balance);
+
+    int getUserIdByUsername(String username);
 }

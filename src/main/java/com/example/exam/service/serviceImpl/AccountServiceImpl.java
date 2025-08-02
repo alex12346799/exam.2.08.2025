@@ -1,6 +1,7 @@
 package com.example.exam.service.serviceImpl;
 
 import com.example.exam.dao.AccountDao;
+import com.example.exam.dao.UserDao;
 import com.example.exam.dto.AccountRequestDto;
 import com.example.exam.dto.AccountResponseDto;
 import com.example.exam.exceptions.NotFoundException;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AccountServiceImpl implements AccountService {
     private final AccountDao accountDao;
+    private final UserDao userDao;
 
     @Override
     public AccountResponseDto createAccount(int userId, AccountRequestDto dto) {
@@ -55,6 +57,11 @@ public class AccountServiceImpl implements AccountService {
     }
     account.setBalance(balance);
     accountDao.updateBalance(account);
+    }
+    @Override
+    public int getUserIdByUsername(String username) {
+        return userDao.findUserIdByUsername(username)
+                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
     }
 }
 

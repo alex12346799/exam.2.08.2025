@@ -9,15 +9,17 @@ import com.example.exam.model.User;
 import com.example.exam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
+    private  final PasswordEncoder encoder;
 
     @Override
     public void registerUser(UserRequestDto dto) {
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException("Пользователь с таким телефоном уже существует");
         }
         User user = UserMapper.fromUserRequestDto(dto);
+        String password = encoder.encode(user.getPassword());
+        user.setPassword(password);
         user.setRole("USER");
         user.setEnabled(true);
         userDao.save(user);

@@ -21,36 +21,39 @@ public class SecurityConfig {
     private final PasswordEncoder encoder;
     private final DataSource dataSource;
 
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-       String userQuery = "select username, password, enabled\n" +
-               "from USERS\n" +
-               "where username = ?;";
-        String roleQuery = "select username, concat('ROLE_', role_name) as role\n" +
-                "from USERS us, ROLES r\n" +
-                "where us.USERNAME=?\n" +
-                "and us.ROLE_ID = r.ID";
+
+        String userQuery = "SELECT username, password, enabled FROM users WHERE username = ?";
+
+        String roleQuery = "SELECT username, CONCAT('ROLE_', role) AS role FROM users WHERE username = ?";
+
 
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
+                .passwordEncoder(encoder)
                 .usersByUsernameQuery(userQuery)
-                .authoritiesByUsernameQuery(roleQuery);
+                .authoritiesByUsernameQuery(roleQuery)
+                ;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-     http
-             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-             .httpBasic(Customizer.withDefaults())
-             .formLogin(AbstractHttpConfigurer::disable)
-             .logout(AbstractHttpConfigurer::disable)
-             .csrf(AbstractHttpConfigurer::disable)
-             .authorizeHttpRequests(
-                     authorize -> authorize
-                     .requestMatchers(HttpMethod.POST, "/resumes").hasRole("APPLICANT")
-                     .requestMatchers(HttpMethod.POST, "/vacancies").hasRole("EMPLOYEE")
-                     .anyRequest().permitAll()
-                     );
-     return http.build();
+        http
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(Customizer.withDefaults())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        authorize -> authorize
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/api/accounts/**").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET, "/api/transactions/*/history").hasRole("USER")
+                                .requestMatchers(HttpMethod.POST, "/api/transactions").hasRole("USER")
+                                .anyRequest().permitAll()
+                );
+        return http.build();
     }
 }

@@ -64,5 +64,19 @@ public class TransactionDao {
         List<Transaction> list = jdbcTemplate.query(sql, rowMapper, id);
         return list.stream().findFirst();
     }
+    public void update(Transaction transaction) {
+        String sql = "UPDATE transactions SET approved = ?, status = ? WHERE id = ?";
+        jdbcTemplate.update(
+                sql,
+                transaction.isApproved(),
+                transaction.getStatus(),
+                transaction.getId()
+        );
+    }
+    public void Delete(int id) {
+        String sql = "UPDATE transactions SET deleted = TRUE WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
 
 }

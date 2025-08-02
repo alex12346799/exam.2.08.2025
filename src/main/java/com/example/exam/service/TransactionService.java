@@ -15,4 +15,10 @@ public interface TransactionService {
     List<TransactionResponseDto> getAllApprovalRequired();
 
     Transaction getByIdOrThrow(int id);
+
+    void approve(int id);
+
+    void rollback(int id);
+
+    void delete(int id);
 }
