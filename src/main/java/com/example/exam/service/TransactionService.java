@@ -7,8 +7,8 @@ import com.example.exam.model.Transaction;
 import java.util.List;
 
 public interface TransactionService {
-    TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto) throws Exception;
-    List<TransactionResponseDto> getTransactionHistory(int accountId);
+    TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto, int userId) throws Exception;
+    List<TransactionResponseDto> getTransactionHistory(int accountId, int userId);
 
     List<TransactionResponseDto> getAll();
 

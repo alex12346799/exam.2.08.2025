@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountDao accountDao;
 
     @Override
-    public TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto) throws Exception {
+    public TransactionResponseDto createTransaction(TransactionRequestDto transactionRequestDto, int userId) throws Exception {
         if (transactionRequestDto.getAmount() < 0) {
             throw new NumberFormatException("Сумма должна быть больше 0");
         }
@@ -52,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public List<TransactionResponseDto> getTransactionHistory(int accountId) {
+    public List<TransactionResponseDto> getTransactionHistory(int accountId, int userId) {
         return transactionDao.findByAccountId(accountId).stream()
                 .map(TransactionMapper::toTransactionResponseDto)
                 .collect(Collectors.toList());
