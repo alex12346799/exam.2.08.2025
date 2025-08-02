@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 @Data
 public class Transaction {
     private int id;
+    private String senderAccount;
+    private String receiverAccount;
     private double amount;
     private String status;
     private boolean approvalRequired;
